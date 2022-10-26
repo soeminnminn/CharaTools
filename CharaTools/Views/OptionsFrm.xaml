@@ -1,0 +1,105 @@
+﻿<Window x:Class="CharaTools.Views.OptionsFrm"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CharaTools"
+        xmlns:models="clr-namespace:CharaTools.Models"
+        xmlns:cp="clr-namespace:ColorPicker;assembly=ColorPicker" 
+        mc:Ignorable="d"
+        d:DataContext="{d:DesignInstance models:ConfigModel}"
+        WindowStartupLocation="CenterOwner"
+        ShowInTaskbar="False"
+        ResizeMode="NoResize"
+        Title="Options" 
+        Height="340" Width="600">
+
+    <Window.Resources>
+        <local:IntToBoolConverter x:Key="IntToBoolConverter" />
+    </Window.Resources>
+    
+    <DockPanel>
+        <DockPanel.Resources>
+            <Style x:Key="DialogButton" TargetType="{x:Type Button}">
+                <Setter Property="Width" Value="70" />
+                <Setter Property="Height" Value="25" />
+                <Setter Property="Margin" Value="8" />
+            </Style>
+            <Style TargetType="{x:Type RadioButton}">
+                <Setter Property="Margin" Value="8,4" />
+            </Style>
+            <Style TargetType="{x:Type CheckBox}">
+                <Setter Property="Margin" Value="0,4" />
+            </Style>
+        </DockPanel.Resources>
+        
+        <Border DockPanel.Dock="Bottom" BorderBrush="LightGray" BorderThickness="0,1,0,0" Margin="8,2">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,4">
+                <Button Content="Ok" IsDefault="True" Style="{StaticResource DialogButton}" Click="ButtonOk_Click"/>
+                <Button Content="Cancel" IsCancel="True" Style="{StaticResource DialogButton}" />
+            </StackPanel>
+        </Border>
+        <Grid Margin="8">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            
+            <GroupBox Header="Export JSON" Margin="0,0,4,0">
+                <StackPanel Margin="16,8">
+                    <CheckBox Content="Exclude extended data" 
+                              IsChecked="{Binding ExcludeExtData, Mode=TwoWay}" />
+                    <CheckBox Content="Minify JSON" 
+                              IsChecked="{Binding MinifyJSON, Mode=TwoWay}" />
+                </StackPanel>
+            </GroupBox>
+
+            <GroupBox Grid.Row="1" Header="Save Card" Margin="0,4,4,0">
+                <StackPanel Margin="16,8">
+                    <CheckBox Content="Remove empty extended data" 
+                              IsChecked="{Binding ClearEmptyExtData, Mode=TwoWay}"/>
+                </StackPanel>
+            </GroupBox>
+
+            <GroupBox Grid.Column="1" Grid.RowSpan="2" Header="Replace Card Image">
+                <Grid Margin="8,4">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="110"/>
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="125"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    
+                    <Label Content="Image size :" />
+                    <StackPanel Grid.Column="1" Margin="0,4,0,0">
+                        <RadioButton Content="No change" 
+                                     IsChecked="{Binding ImageSizeType, Mode=TwoWay, Converter={StaticResource IntToBoolConverter}, ConverterParameter=0}"/>
+                        <RadioButton Content="Original"
+                                     IsChecked="{Binding ImageSizeType, Mode=TwoWay, Converter={StaticResource IntToBoolConverter}, ConverterParameter=1}"/>
+                        <RadioButton Content="Normal"
+                                     IsChecked="{Binding ImageSizeType, Mode=TwoWay, Converter={StaticResource IntToBoolConverter}, ConverterParameter=2}"/>
+                        <RadioButton Content="Large"
+                                     IsChecked="{Binding ImageSizeType, Mode=TwoWay, Converter={StaticResource IntToBoolConverter}, ConverterParameter=3}"/>
+                        <RadioButton Content="Extra large"
+                                     IsChecked="{Binding ImageSizeType, Mode=TwoWay, Converter={StaticResource IntToBoolConverter}, ConverterParameter=4}"/>
+                    </StackPanel>
+                    
+                    <Label Grid.Row="1" Content="Background color :" VerticalAlignment="Center"/>
+                    <cp:ColorPicker Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" SelectedColor="{Binding BkgColor}" IsOpaqueColor="True" />
+
+                    <CheckBox Grid.Row="2" Grid.ColumnSpan="2" Content="Draw _background image" IsChecked="{Binding DrawBkgImage, Mode=TwoWay}"/>
+                    <CheckBox Grid.Row="3" Grid.ColumnSpan="2" Content="Draw _frame" IsChecked="{Binding DrawFrame, Mode=TwoWay}" />
+                </Grid>
+            </GroupBox>
+        </Grid>
+    </DockPanel>
+</Window>

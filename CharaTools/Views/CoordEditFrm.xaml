@@ -1,0 +1,164 @@
+﻿<Window x:Class="CharaTools.Views.CoordEditFrm"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:models="clr-namespace:CharaTools.Models"
+        xmlns:ctrls="clr-namespace:CharaTools.Controls"
+        mc:Ignorable="d"
+        Title="Coordinate Edit" 
+        ShowInTaskbar="False"
+        WindowStartupLocation="CenterOwner"
+        MinHeight="500" MinWidth="800"
+        Height="500" Width="800">
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/CharaTools;component/Themes/JsonViewStyle.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    
+    <DockPanel>
+        <DockPanel.Resources>
+            <Style x:Key="DialogButton" TargetType="{x:Type Button}">
+                <Setter Property="Width" Value="70" />
+                <Setter Property="Height" Value="25" />
+                <Setter Property="Margin" Value="8" />
+            </Style>
+            <Style x:Key="ToolbarButton" TargetType="{x:Type Button}">
+                <Setter Property="HorizontalAlignment" Value="Stretch" />
+                <Setter Property="HorizontalContentAlignment" Value="Left" />
+                <Setter Property="Padding" Value="2,4" />
+            </Style>
+        </DockPanel.Resources>
+        
+        <StackPanel DockPanel.Dock="Bottom" Margin="8,6" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Content="Ok" IsDefault="True" Style="{StaticResource DialogButton}" Click="ButtonOk_Click"/>
+            <Button Content="Cancel" IsCancel="True" Style="{StaticResource DialogButton}" />
+        </StackPanel>
+        
+        <TabControl>
+            <TabControl.Resources>
+                <Style TargetType="{x:Type RichTextBox}">
+                    <Setter Property="Width" Value="600" />
+                    <Setter Property="Height" Value="200" />
+                    <Setter Property="HorizontalAlignment" Value="Left" />
+                    <Setter Property="IsReadOnly" Value="True" />
+                    <Setter Property="BorderThickness" Value="0" />
+                </Style>
+            </TabControl.Resources>
+            
+            <TabItem Header="Clothes">
+                <Grid Margin="4,4">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <ListView x:Name="listClothes" Style="{StaticResource ExpandableListViewStyle}">
+                        <ListView.Resources>
+                            <DataTemplate DataType="{x:Type models:CoordPartListData}">
+                                <GroupBox Header="Details" Margin="0,0,8,4" Padding="4">
+                                    <ScrollViewer Height="200">
+                                        <ctrls:JsonView Source="{Binding DetailsJson}" />
+                                    </ScrollViewer>
+                                </GroupBox>
+                            </DataTemplate>
+                        </ListView.Resources>
+                        <ListView.View>
+                            <GridView>
+                                <GridView.Columns>
+                                    <GridViewColumn Header="#" Width="60">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Margin="20,0,0,0" Text="{Binding Index}" HorizontalAlignment="Right" />
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                    <GridViewColumn Header="Kind" Width="100" DisplayMemberBinding="{Binding Kind}" />
+                                    <GridViewColumn Header="ID" Width="80" DisplayMemberBinding="{Binding ID}" />
+                                    <GridViewColumn Header="Moded" Width="80" DisplayMemberBinding="{Binding Moded}" />
+                                </GridView.Columns>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                    <ToolBarTray Grid.Column="1" Orientation="Vertical">
+                        <ToolBar ToolBarTray.IsLocked="True" >
+                            <Button x:Name="cmdClothDelete" ToolTip="Remove" Style="{StaticResource ToolbarButton}">
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="{StaticResource RecycleBin_16x}"/>
+                                    <TextBlock Text="Remove" Margin="4,0,0,0"/>
+                                </StackPanel>
+                            </Button>
+                        </ToolBar>
+                    </ToolBarTray>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Accessories">
+                <Grid Margin="4,4">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <ListView x:Name="listAccessories" Style="{StaticResource ExpandableListViewStyle}">
+                        <ListView.Resources>
+                            <DataTemplate DataType="{x:Type models:CoordPartListData}">
+                                <GroupBox Header="Details" Margin="0,0,8,4" Padding="4">
+                                    <ScrollViewer Height="200">
+                                        <ctrls:JsonView Source="{Binding DetailsJson}" />
+                                    </ScrollViewer>
+                                </GroupBox>
+                            </DataTemplate>
+                        </ListView.Resources>
+                        <ListView.View>
+                            <GridView>
+                                <GridView.Columns>
+                                    <GridViewColumn Header="#" Width="60">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Margin="20,0,0,0" Text="{Binding Index}" HorizontalAlignment="Right" />
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                    <GridViewColumn Header="Type" Width="100" DisplayMemberBinding="{Binding Kind}" />
+                                    <GridViewColumn Header="ID" Width="80" DisplayMemberBinding="{Binding ID}" />
+                                    <GridViewColumn Header="Parent Key" Width="150" DisplayMemberBinding="{Binding ParentKey}" />
+                                    <GridViewColumn Header="Moded" Width="80" DisplayMemberBinding="{Binding Moded}" />
+                                </GridView.Columns>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                    <ToolBarTray Grid.Column="1" Orientation="Vertical" >
+                        <ToolBar ToolBarTray.IsLocked="True">
+                            <Button x:Name="cmdAccDelete" ToolTip="Remove" Style="{StaticResource ToolbarButton}">
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="{StaticResource RecycleBin_16x}"/>
+                                    <TextBlock Text="Remove" Margin="4,0,0,0"/>
+                                </StackPanel>
+                            </Button>
+                            <Button x:Name="cmdAccClean" ToolTip="Clean empty" Style="{StaticResource ToolbarButton}">
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="{StaticResource CleanData_16x}"/>
+                                    <TextBlock Text="Clean" Margin="4,0,0,0"/>
+                                </StackPanel>
+                            </Button>
+                            <Button x:Name="cmdAccUp" Style="{StaticResource ToolbarButton}">
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="{StaticResource Upload_16x}"/>
+                                    <TextBlock Text="Move up" Margin="4,0,0,0"/>
+                                </StackPanel>
+                            </Button>
+                            <Button x:Name="cmdAccDown" Style="{StaticResource ToolbarButton}">
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="{StaticResource Download_16x}"/>
+                                    <TextBlock Text="Move down" Margin="4,0,0,0"/>
+                                </StackPanel>
+                            </Button>
+                        </ToolBar>
+                    </ToolBarTray>
+                </Grid>
+            </TabItem>
+        </TabControl>
+    </DockPanel>
+</Window>
